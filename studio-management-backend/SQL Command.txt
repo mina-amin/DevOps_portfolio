@@ -1,0 +1,30 @@
+CREATE DATABASE studio_db;
+
+USE studio_db;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'user') DEFAULT 'user'
+);
+
+CREATE TABLE resources (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  category VARCHAR(255) NOT NULL,
+  available BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  resource_id INT,
+  action ENUM('checkin', 'checkout'),
+  customer_name VARCHAR(255),
+  customer_mobile VARCHAR(20),
+  note TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (resource_id) REFERENCES resources(id)
+);
